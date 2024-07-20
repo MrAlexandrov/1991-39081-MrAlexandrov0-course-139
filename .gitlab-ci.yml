@@ -1,0 +1,44 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  script:
+    - docker-compose build
+  tags:
+    - docker
+
+test:
+  stage: test
+  script:
+    # Запуск сервисов в фоновом режиме
+    - docker-compose up -d
+    # Ожидание запуска сервисов
+    - sleep 15
+    # Тестирование фронтенда
+    - curl -f http://localhost/ || (echo "Frontend test failed" && exit 1)
+    # Тестирование бэкенда
+    - curl -f http://localhost/cat_get || (echo "Backend test failed" && exit 1)
+  tags:
+    - docker
+
+deploy:
+  stage: deploy
+  script:
+    - docker-compose up -d
+  only:
+    - master
+  tags:
+    - docker
