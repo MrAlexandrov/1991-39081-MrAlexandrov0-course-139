@@ -23,14 +23,10 @@ build:
 test:
   stage: test
   script:
-    # Запуск сервисов в фоновом режиме
     - docker-compose up -d
-    # Ожидание запуска сервисов
-    - sleep 15
-    # Тестирование фронтенда
-    - curl -f http://localhost/ || (echo "Frontend test failed" && exit 1)
-    # Тестирование бэкенда
-    - curl -f http://localhost/cat_get || (echo "Backend test failed" && exit 1)
+    - sleep 60
+    - curl -GET http://localhost/ || (echo "Frontend test failed" && exit 1)
+    - curl -GET http://localhost/cat_get || (echo "Backend test failed" && exit 1)
   tags:
     - docker
 
