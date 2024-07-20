@@ -24,7 +24,7 @@ test:
   stage: test
   script:
     - docker-compose up -d
-    - sleep 60
+    - sleep 3600
     - curl -GET http://localhost/ || (echo "Frontend test failed" && exit 1)
     - curl -GET http://localhost/cat_get || (echo "Backend test failed" && exit 1)
   tags:
