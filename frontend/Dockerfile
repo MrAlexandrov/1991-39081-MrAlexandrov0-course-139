@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:18
 
 WORKDIR /app
 
@@ -8,5 +8,7 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+
+EXPOSE 3000
 
 CMD ["node", "frontend.js"]

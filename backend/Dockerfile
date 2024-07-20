@@ -7,4 +7,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+EXPOSE 3001
+
 CMD ["python", "backend.py"]
